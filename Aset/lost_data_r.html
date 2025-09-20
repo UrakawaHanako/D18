@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f172a">
+  <title>Lost Data — Master Stage</title>
+  <style>
+    :root{
+      --bg:#f7fafc; --card:#fff; --muted:#475569; --fg:#0f172a; --accent:#3b82f6; --highlight:#22c55e;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root{ --bg:#071024; --card:#07162a; --muted:#9aa6b2; --fg:#e6eef8; --accent:#60a5fa; --highlight:#4ade80 }
+      body { color:var(--fg); }
+      iframe { border-color: rgba(255,255,255,0.06); }
+    }
+
+    html,body{height:100%;margin:0}
+    body{background:var(--bg);color:var(--fg);line-height:1.4;padding:0;display:flex;align-items:stretch;justify-content:center}
+
+    .wrap{width:100%;max-width:100%;display:flex;flex-direction:column;flex:1}
+    .card{background:var(--card);border-radius:0;padding:0;box-shadow:none;border:none;display:flex;flex-direction:column;flex:1}
+
+    header{padding:12px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:var(--card);border-bottom:1px solid rgba(2,6,23,0.06)}
+    h1{font-size:1.2rem;margin:0}
+    .subtitle{color:var(--muted);margin:4px 0 0 0;font-size:0.9rem}
+
+    .controls{display:flex;gap:10px;flex-wrap:wrap;padding:8px 12px;background:var(--card);border-bottom:1px solid rgba(2,6,23,0.06)}
+    .btn{appearance:none;border:0;background:transparent;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer;border:1px solid rgba(2,6,23,0.1);transition:background .2s, color .2s}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#2563eb);color:#fff;border:1px solid rgba(255,255,255,0.1)}
+    .btn.drive{background:linear-gradient(90deg,var(--highlight),#16a34a);color:#fff;border:1px solid rgba(255,255,255,0.1)}
+    .btn.ghost{background:transparent}
+    .btn:active{transform:translateY(1px)}
+    .btn:focus{outline:2px solid rgba(59,130,246,0.5)}
+
+    .meta{display:flex;gap:8px;align-items:center}
+    .link{font-weight:600;color:var(--accent);text-decoration:none}
+
+    .iframe-wrap{flex:1;display:flex;flex-direction:column;align-items:center;overflow:auto;padding:10px}
+    .iframe-wrap iframe{width:90%;height:80vh;border:0;transform:scale(0.9);transform-origin:top center;background:#fff;}
+
+    .foot{font-size:0.85rem;color:var(--muted);padding:8px;text-align:center;background:var(--card);border-top:1px solid rgba(2,6,23,0.06)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="region" aria-labelledby="page-title">
+      <header>
+        <div>
+          <h1 id="page-title">Lost Data - Master Stage</h1>
+          <p class="subtitle">Melihat sheet Google — ditampilkan dalam ukuran diperkecil.</p>
+        </div>
+
+        <div class="meta">
+          <a class="link" href="https://docs.google.com/spreadsheets/d/11iimhrV4xOi0HfH4tbhoe0N50i1w2ahC_j83WKVvkzI/edit?usp=sharing" target="_blank" rel="noopener noreferrer">Buka sheet</a>
+        </div>
+      </header>
+
+      <div class="controls">
+        <button id="addBtn" class="btn primary">＋ Tambah baris</button>
+        <button id="AccTera" class="btn drive">Akses Drive</button>
+        <button id="AccN" class="btn primary">N_Hen</button>
+        <button id="AccPix" class="btn" style="background-color: #44d8ef; color: white; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer;">Pixiv</button>
+        <button id="AccKem" class="btn" style="background-color: #ef4444; color: white; padding: 8px 14px; border-radius: 8px; border: none; cursor: pointer;">Kemono</button>
+
+        <button id="openFull" class="btn ghost" aria-pressed="false">Tampilkan penuh</button>
+      </div>
+
+      <div id="iframeWrap" class="iframe-wrap" aria-live="polite">
+        <iframe id="sheetFrame" loading="lazy" src="https://docs.google.com/spreadsheets/d/11iimhrV4xOi0HfH4tbhoe0N50i1w2ahC_j83WKVvkzI/edit?usp=sharing" title="Google Spreadsheet: Lost Data"></iframe>
+      </div>
+
+      <p class="foot">Tip: di Android, buka menu browser → "Add to Home screen". Di Windows, gunakan menu browser → "Install" atau pin ke taskbar.</p>
+    </div>
+
+  </div>
+
+  <script>
+    document.getElementById('addBtn').addEventListener('click', () => {
+      window.open('https://docs.google.com/forms/d/e/1FAIpQLSfbemfCrTDXCzKIP4gZHjze7uFh43tAkyLreVMlVNdGhHk5-A/viewform?usp=header','_blank');
+    });
+    document.getElementById('AccTera').addEventListener('click', () => {
+      window.open('https://drive.google.com/drive/folders/1p_pr32ibMSQ5qt6wYd-OJWvsCtFyhgLH?usp=sharing','_blank');
+    });
+    const openFull = document.getElementById('openFull');
+    const iframe = document.getElementById('sheetFrame');
+    openFull.addEventListener('click', () => {
+      const is = iframe.style.transform === 'scale(1)';
+      if(is){
+        iframe.style.transform = 'scale(0.9)';
+        openFull.textContent = 'Tampilkan penuh';
+      } else {
+        iframe.style.transform = 'scale(1)';
+        openFull.textContent = 'Perkecil tampilan';
+      }
+    });
+
+      const AccN = document.getElementById('AccN');
+
+    AccN.addEventListener('click', () => {
+      window.open(
+        'https://nhentai.net/language/english/?page=424',
+        '_blank'
+      )
+    })
+
+    const AccPix = document.getElementById('AccPix');
+
+    AccPix.addEventListener('click', () => {
+      window.open(
+        'https://www.pixiv.net/en/',
+        '_blank'
+      )
+    })
+
+    const AccKem = document.getElementById('AccKem');
+
+    AccKem.addEventListener('click', () => {
+      window.open(
+        'https://kemono.cr/artists',
+        '_blank'
+      )
+    })
+  </script>
+</body>
+</html>
